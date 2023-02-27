@@ -25,11 +25,11 @@ public class SimpleBankAccountAtm implements BankAccount {
 
     @Override
     public void deposit(final int userID, final double amount) {
-        this.account.deposit(userID, amount - FEE);
+        if(amount > 0) this.account.deposit(userID, amount - FEE);
     }
 
     @Override
     public void withdraw(final int userID, final double amount) {
-        this.account.withdraw(userID, amount + FEE);
+        if(amount > 0 ) this.account.withdraw(userID, amount + FEE);
     }
 }
