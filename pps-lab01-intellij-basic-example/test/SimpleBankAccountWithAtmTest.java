@@ -81,4 +81,15 @@ public class SimpleBankAccountWithAtmTest {
         assertEquals(0, this.bankAccount.getBalance());
     }
 
+    @Test
+    void testWithdrawFeeAmount(){
+        final int depositValue = 50;
+        this.bankAccount.deposit(this.accountHolder.getId(), depositValue);
+        final int withdrawValue = (int) ATM_FEE;
+        this.bankAccount.withdraw(this.accountHolder.getId(), withdrawValue);
+        assertEquals(depositValue -  ATM_FEE, this.bankAccount.getBalance());
+    }
+
+
+
 }

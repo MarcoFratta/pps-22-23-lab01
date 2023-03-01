@@ -1,16 +1,16 @@
 package lab01.example.model;
 
-import lab01.example.model.AccountHolder;
-import lab01.example.model.BankAccount;
-import lab01.example.model.SimpleBankAccount;
-
 public class SimpleBankAccountAtm implements BankAccount {
 
     public static final double FEE = 1;
     private final BankAccount account;
 
     public SimpleBankAccountAtm(final AccountHolder accountHolder, final int id) {
-        this.account = new SimpleBankAccount(accountHolder, id);
+        this(new SimpleBankAccount(accountHolder, id));
+    }
+
+    public SimpleBankAccountAtm(final BankAccount bankAccount){
+        this.account = bankAccount;
     }
 
     @Override
@@ -30,6 +30,6 @@ public class SimpleBankAccountAtm implements BankAccount {
 
     @Override
     public void withdraw(final int userID, final double amount) {
-        if(amount > 0 ) this.account.withdraw(userID, amount + FEE);
+        if(amount > FEE ) this.account.withdraw(userID, amount + FEE);
     }
 }
