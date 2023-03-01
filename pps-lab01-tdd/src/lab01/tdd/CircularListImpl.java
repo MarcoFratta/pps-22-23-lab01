@@ -1,20 +1,19 @@
 package lab01.tdd;
 
-import lab01.tdd.CircularList;
-
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public class CircularListImpl implements CircularList {
 
+    private static final int INITIAL_POS = -1;
     private final List<Integer> list;
     private int position;
 
     public CircularListImpl() {
         this.list = new ArrayList<>();
-        this.position = 0;
+        this.position = INITIAL_POS;
     }
 
     @Override
@@ -33,21 +32,35 @@ public class CircularListImpl implements CircularList {
     }
 
     @Override
-    public Optional<Integer> next() {
-       return this.isEmpty() ? Optional.empty() : Optional.of(this.getNext());
+    public void reset() {
+        this.position = INITIAL_POS;
     }
 
-    private Integer getNext() {
-        return this.list.get(this.position++ % this.list.size());
+    @Override
+    public Optional<Integer> next() {
+       return this.wrapWithOptional(() -> this.getItemAtNewPosition(this::nextPosition));
     }
 
     @Override
     public Optional<Integer> previous() {
-        return Optional.empty();
+        return this.wrapWithOptional(() -> this.getItemAtNewPosition(this::previousPosition));
     }
 
-    @Override
-    public void reset() {
+    
+    private Optional<Integer> wrapWithOptional(final Supplier<Integer> extractor) {
+        return this.isEmpty() ? Optional.empty() : Optional.of(extractor.get());
+    }
+    
+    private int getItemAtNewPosition(final Supplier<Integer> newPositionSupplier) {
+        this.position = newPositionSupplier.get();
+        return this.list.get(this.position);
+    }
 
+    private Integer nextPosition() {
+        return ++this.position % this.list.size();
+    }
+
+    private Integer previousPosition() {
+        return --this.position < 0 ? this.size() - 1 : this.position;
     }
 }
