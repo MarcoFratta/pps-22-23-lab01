@@ -16,7 +16,6 @@ public class IterableCircularListImpl implements IterableCircularList<Integer> {
         this.list = new CircularListImpl();
     }
 
-
     @Override
     public Iterator<Integer> forwardIterator() {
         return new CircularListIteratorImpl(this.list::next);

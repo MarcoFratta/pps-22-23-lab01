@@ -68,4 +68,14 @@ public class CircularListTest {
         assertEquals(7, iterator.next());
     }
 
+    @Test
+    void testForwardAndBackwardsIterations() {
+        this.list.add(5);
+        this.list.add(7);
+        final var forwardIterator = this.list.forwardIterator();
+        final var backwardIterator = this.list.backwardIterator();
+        assertEquals(5, forwardIterator.next());
+        assertEquals(7, backwardIterator.next());
+    }
+
 }
