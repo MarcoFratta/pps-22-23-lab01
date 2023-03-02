@@ -8,11 +8,11 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class IterableCircularListImpl implements IterableCircularList<Integer> {
+public class IntIterableCircularList implements IterableCircularList<Integer> {
 
     private final CircularList list;
 
-    public IterableCircularListImpl() {
+    public IntIterableCircularList() {
         this.list = new CircularListImpl();
     }
 
@@ -22,11 +22,23 @@ public class IterableCircularListImpl implements IterableCircularList<Integer> {
     }
 
     @Override
-    public Iterator<Integer> backwardIterator() { return new CircularListIteratorImpl(this.list::previous);}
+    public Iterator<Integer> backwardIterator() {
+        return new CircularListIteratorImpl(this.list::previous);}
 
     @Override
     public void add(final Integer i) {
         this.list.add(i);
+    }
+
+
+    @Override
+    public int size() {
+        return this.list.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.list.isEmpty();
     }
 
     private class CircularListIteratorImpl extends CircularListIterator<Integer> {
@@ -34,7 +46,7 @@ public class IterableCircularListImpl implements IterableCircularList<Integer> {
         private final Supplier<Optional<Integer>> stepFunction;
 
         protected CircularListIteratorImpl(final Supplier<Optional<Integer>> stepFunction) {
-            super(IterableCircularListImpl.this.list);
+            super(IntIterableCircularList.this.list);
             this.stepFunction = stepFunction;
         }
 

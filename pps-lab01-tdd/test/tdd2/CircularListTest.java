@@ -1,14 +1,14 @@
 package tdd2;
 
 import lab01.tdd2.IterableCircularList;
-import lab01.tdd2.IterableCircularListImpl;
+import lab01.tdd2.IntIterableCircularList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+import static tdd.Utils.populateListOrdered;
 
 public class CircularListTest {
 
@@ -16,7 +16,7 @@ public class CircularListTest {
 
     @BeforeEach
     void beforeEach(){
-        this.list = new IterableCircularListImpl();
+        this.list = new IntIterableCircularList();
     }
 
     @Test
@@ -49,23 +49,20 @@ public class CircularListTest {
 
     @Test
     void testMultipleForwardIterations() {
-        this.list.add(5);
-        this.list.add(7);
-        this.list.add(3);
+        populateListOrdered(this.list, 3);
         final var iterator = this.list.forwardIterator();
         iterator.next();
         iterator.next();
-        assertEquals(3, iterator.next());
+        assertEquals(2, iterator.next());
     }
 
     @Test
     void testMultipleBackwardsIterations() {
-        this.list.add(5);
-        this.list.add(7);
+        populateListOrdered(this.list, 3);
         final var iterator = this.list.backwardIterator();
         iterator.next();
         iterator.next();
-        assertEquals(7, iterator.next());
+        assertEquals(0, iterator.next());
     }
 
     @Test
@@ -76,6 +73,17 @@ public class CircularListTest {
         final var backwardIterator = this.list.backwardIterator();
         assertEquals(5, forwardIterator.next());
         assertEquals(7, backwardIterator.next());
+    }
+
+    @Test
+    void testSizes(){
+        this.list.add(4);
+        assertEquals(1, this.list.size());
+    }
+
+    @Test
+    void testInitialEmpty(){
+        assertTrue(this.list.isEmpty());
     }
 
 }
