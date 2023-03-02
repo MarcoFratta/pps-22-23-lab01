@@ -89,7 +89,4 @@ public class SimpleBankAccountWithAtmTest {
         this.bankAccount.withdraw(this.accountHolder.getId(), withdrawValue);
         assertEquals(depositValue -  ATM_FEE, this.bankAccount.getBalance());
     }
-
-
-
 }
